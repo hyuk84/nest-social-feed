@@ -1,38 +1,42 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../../users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('posts')
 export class Post {
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  id!: bigint;
+  id!: string;
 
-  @Column({ type: 'bigint' })
-  user_id!: bigint;
+  @ManyToOne(() => User, (user) => user.posts, { onDelete: 'CASCADE' })
+  user!: User;
 
   @Column({ type: 'text' })
   content!: string;
 
-  @Column({ type: 'int', default: 0 })
-  likes_count!: number;
+  @Column({ type: 'int', default: 0, name: 'likes_count' })
+  likesCount!: number;
 
-  @Column({ type: 'int', default: 0 })
-  comments_count!: number;
+  @Column({ type: 'int', default: 0, name: 'comments_count' })
+  commentsCount!: number;
 
-  @Column({ type: 'boolean', default: true })
-  is_public!: boolean;
+  @Column({ type: 'boolean', default: true, name: 'is_public' })
+  isPublic!: boolean;
 
-  @Column({ type: 'boolean', default: true })
-  is_active!: boolean;
+  @Column({ type: 'boolean', default: true, name: 'is_active' })
+  isActive!: boolean;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updated_at!: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
-  delete_at!: Date;
+  @Column({ type: 'timestamp', nullable: true, name: 'delete_at' })
+  deleteAt!: Date;
 }

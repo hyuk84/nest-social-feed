@@ -1,26 +1,38 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('profiles')
 export class Profile {
-  @PrimaryColumn({ type: 'bigint' })
-  user_id!: bigint;
+  @PrimaryColumn({ type: 'bigint', name: 'user_id' })
+  userId!: string;
 
-  @Column({ type: 'varchar', length: 50 })
-  display_name!: string;
+  @OneToOne(() => User, (user) => user.profile, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user!: User;
 
-  @Column({ type: 'varchar', length: 6, nullable: true })
+  @Column({ type: 'varchar', length: 50, name: 'display_name' })
+  displayName!: string;
+
+  @Column({ type: 'text', nullable: true })
   bio!: string;
 
-  @Column({ nullable: true })
-  profile_image_url!: string;
+  @Column({ nullable: true, name: 'profile_image_url' })
+  profileImageUrl!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   location!: string;
 
-  @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
-  })
-  updated_at!: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 }

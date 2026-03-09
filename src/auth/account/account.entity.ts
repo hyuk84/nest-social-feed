@@ -1,36 +1,54 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from '../..//users/entities/user.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('accounts')
 export class Account {
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  id!: bigint;
+  id!: string;
 
-  @Column({ type: 'bigint' })
-  user_id!: bigint;
+  @ManyToOne(() => User, (user) => user.account, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user!: User;
 
+  @Column({ type: 'varchar', length: 30 })
   provider!: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  provider_account_id!: string;
+  @Column({ type: 'varchar', length: 255, name: 'provider_account_id' })
+  providerAccountId!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   email!: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  provider_access_token!: string;
-
-  @Column({ type: 'varchar', length: 255, nullable: true })
-  provider_refresh_token!: string;
-
-  provider_token_expires_at!: number;
-
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at!: Date;
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    name: 'provider_access_token',
+  })
+  providerAccessToken!: string;
 
   @Column({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    name: 'provider_refresh_token',
   })
-  updated_at!: Date;
+  providerRefreshToken!: string;
+
+  @Column({ type: 'int', nullable: true, name: 'provider_token_expires_at' })
+  providerTokenExpiresAt!: number;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date;
 }

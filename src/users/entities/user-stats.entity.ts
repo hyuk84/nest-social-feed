@@ -1,16 +1,21 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
+import { User } from './user.entity';
 
 @Entity('user_stats')
 export class UserStats {
-  @PrimaryColumn({ type: 'bigint' })
-  user_id!: bigint;
+  @PrimaryColumn({ type: 'bigint', name: 'user_id' })
+  userId!: string;
 
-  @Column({ type: 'int', default: 0 })
-  followers_count!: number;
+  @OneToOne(() => User, (user) => user.userStats, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user!: User;
 
-  @Column({ type: 'int', default: 0 })
-  following_count!: number;
+  @Column({ type: 'int', default: 0, name: 'followers_count' })
+  followersCount!: number;
 
-  @Column({ type: 'int', default: 0 })
-  posts_count!: number;
+  @Column({ type: 'int', default: 0, name: 'following_count' })
+  followingCount!: number;
+
+  @Column({ type: 'int', default: 0, name: 'posts_count' })
+  postsCount!: number;
 }
