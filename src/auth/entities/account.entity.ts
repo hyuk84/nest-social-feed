@@ -1,10 +1,12 @@
-import { User } from '../..//users/entities/user.entity';
+import { User } from '@/users/entities/user.entity';
+import { AuthSession } from '@/auth/entities/auth-session.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -14,7 +16,7 @@ export class Account {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id!: string;
 
-  @ManyToOne(() => User, (user) => user.account, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.accounts, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user!: User;
 
@@ -25,7 +27,15 @@ export class Account {
   providerAccountId!: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  email!: string;
+  email!: string | null;
+
+  @Column({
+    type: 'varchar',
+    length: 255,
+    nullable: true,
+    name: 'password_hash',
+  })
+  passwordHash!: string | null;
 
   @Column({
     type: 'varchar',
@@ -51,4 +61,7 @@ export class Account {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
+
+  @OneToMany(() => AuthSession, (authSession) => authSession.account)
+  authSessions!: AuthSession[];
 }

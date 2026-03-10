@@ -7,10 +7,11 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Profile } from './profile.entity';
-import { UserStats } from './user-stats.entity';
-import { Account } from '../../auth/account/account.entity';
-import { Post } from '../../posts/entities/post.entity';
+import { Profile } from '@/users/entities/profile.entity';
+import { UserStats } from '@/users/entities/user-stats.entity';
+import { Account } from '@/auth/entities/account.entity';
+import { AuthSession } from '@/auth/entities/auth-session.entity';
+import { Post } from '@/posts/entities/post.entity';
 
 @Entity('users')
 export class User {
@@ -42,8 +43,11 @@ export class User {
   userStats!: UserStats;
 
   @OneToMany(() => Account, (account) => account.user)
-  account!: Account[];
+  accounts!: Account[];
 
   @OneToMany(() => Post, (post) => post.user)
   posts!: Post[];
+
+  @OneToMany(() => AuthSession, (authSession) => authSession.user)
+  authSessions!: AuthSession[];
 }

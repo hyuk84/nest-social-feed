@@ -7,7 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '@/users/entities/user.entity';
 
 @Entity('profiles')
 export class Profile {
