@@ -1,6 +1,6 @@
 import { IsString, MinLength } from 'class-validator';
 
-export class GogleLoginDto {
+export class GoogleLoginDto {
   @IsString()
   @MinLength(10)
   idToken!: string;

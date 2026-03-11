@@ -14,7 +14,7 @@ export class EmailSignupDto {
   @MinLength(4)
   @MaxLength(30)
   @Matches(/^[a-zA-Z0-9._]+$/)
-  username!: string;
+  userName!: string;
 
   @IsString()
   @MinLength(8)

@@ -22,13 +22,18 @@ export class Profile {
   displayName!: string;
 
   @Column({ type: 'text', nullable: true })
-  bio!: string;
+  bio!: string | null;
 
-  @Column({ nullable: true, name: 'profile_image_url' })
-  profileImageUrl!: string;
+  @Column({
+    type: 'varchar',
+    length: 500,
+    nullable: true,
+    name: 'profile_image_url',
+  })
+  profileImageUrl!: string | null;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
-  location!: string;
+  location!: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;

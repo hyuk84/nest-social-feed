@@ -6,6 +6,7 @@ export type AuthResponse = {
     publicId: string;
     email: string;
     userName: string;
-    displayName: string;
+    displayName: string | null;
+    profileImageUrl: string | null;
   };
 };

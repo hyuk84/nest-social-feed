@@ -34,13 +34,13 @@ export class AuthSession {
   userAgent!: string | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'ip_address' })
-  ipAddess!: string | null;
+  ipAddress!: string | null;
 
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'device_name' })
   deviceName!: string | null;
 
   @Column({ type: 'timestamp', name: 'expires_at' })
-  expriesAt!: Date;
+  expiresAt!: Date;
 
   @Column({ type: 'timestamp', nullable: true, name: 'revoked_at' })
   revokedAt!: Date | null;
