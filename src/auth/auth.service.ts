@@ -20,7 +20,8 @@ import { EmailLoginDto } from '@/auth/dto/request/email-login.dto';
 import { EmailSignupDto } from '@/auth/dto/request/email-signup.dto';
 import { GoogleLoginDto } from '@/auth/dto/request/google-login.dto';
 import { RefreshTokenDto } from '@/auth/dto/request/refresh-token.dto';
-import type { AuthResponse } from '@/auth/types/auth-response.type';
+import type { AuthResponseDto } from '@/auth/dto/response/auth-response.dto';
+import type { TokenPairResponseDto } from '@/auth/dto/response/token-pair-response.dto';
 import type { SessionMeta } from '@/auth/types/session-meta.type';
 import { AppException } from '@/common/errors/exceptions/app.exception';
 import { AUTH_ERROR_CODES } from '@/common/errors/codes/auth-error.codes';
@@ -66,7 +67,7 @@ export class AuthService {
   async emailSignup(
     dto: EmailSignupDto,
     meta: SessionMeta,
-  ): Promise<AuthResponse> {
+  ): Promise<AuthResponseDto> {
     const email = this.normalizeEmail(dto.email);
     const userName = this.normalizeUserName(dto.userName);
 
@@ -132,7 +133,7 @@ export class AuthService {
   async emailLogin(
     dto: EmailLoginDto,
     meta: SessionMeta,
-  ): Promise<AuthResponse> {
+  ): Promise<AuthResponseDto> {
     const email = this.normalizeEmail(dto.email);
 
     const account = await this.accountRepository.findOne({
@@ -168,7 +169,7 @@ export class AuthService {
   async googleLogin(
     dto: GoogleLoginDto,
     meta: SessionMeta,
-  ): Promise<AuthResponse> {
+  ): Promise<AuthResponseDto> {
     let ticket;
     try {
       ticket = await this.googleClient.verifyIdToken({
@@ -303,9 +304,7 @@ export class AuthService {
     );
   }
 
-  async refresh(
-    dto: RefreshTokenDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
+  async refresh(dto: RefreshTokenDto): Promise<TokenPairResponseDto> {
     const refreshTokenHash = this.hashToken(dto.refreshToken);
 
     const session = await this.authSessionRepository.findOne({
@@ -407,7 +406,7 @@ export class AuthService {
     displayName: string,
     profileImageUrl: string | null,
     meta: SessionMeta,
-  ): Promise<AuthResponse> {
+  ): Promise<AuthResponseDto> {
     const accessToken = this.signAccessToken(user);
     const refreshExpiresAt = this.calculateExpiresAt(
       this.authConfiguration.jwt.refreshExpiresIn,
@@ -451,8 +450,6 @@ export class AuthService {
       {
         sub: user.id,
         publicId: user.publicId,
-        email: user.email,
-        userName: user.userName,
         typ: 'access',
       },
       {

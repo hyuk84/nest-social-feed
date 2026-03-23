@@ -13,5 +13,9 @@ export const getOrmConfig = (
   autoLoadEntities: true,
   synchronize: configService.get<boolean>('DB_SYNCHRONIZE'),
   logging: configService.get<boolean>('DB_LOGGING'),
+  invalidWhereValuesBehavior: {
+    null: 'throw',
+    undefined: 'throw',
+  },
   migrations: ['src/migrations/*.ts'],
 });
