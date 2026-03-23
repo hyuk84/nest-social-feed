@@ -18,7 +18,7 @@ The current focus is production-style authentication (email + Google login, JWT 
 - **JWT Security Model**: Access/refresh token split with hashed refresh token storage in DB
 - **Validation & Config Safety**: DTO validation (`class-validator`) + environment validation (`Joi`)
 - **Centralized Error Response**: Unified error format via custom exception + global exception filter
-- **Swagger API Docs**: OpenAPI docs served at `/docs`
+- **Swagger API Docs**: OpenAPI docs served at `/docs` (versioned routes)
 - **Database Ready**: PostgreSQL + TypeORM (`autoLoadEntities`, module-based entities)
 - **Scalable Module Layout**: `auth`, `users`, `posts`, `comments`, `likes`, `follows`, `feeds`
 - **Absolute Imports**: `@/` path alias for cleaner imports
@@ -114,12 +114,12 @@ pnpm run test:cov
 
 ## Auth API (Implemented)
 
-- `POST /auth/signup/email`
-- `POST /auth/login/email`
-- `POST /auth/login/google`
-- `POST /auth/refresh`
-- `POST /auth/logout`
-- `POST /auth/logout-all`
+- `POST /v1/auth/signup/email`
+- `POST /v1/auth/login/email`
+- `POST /v1/auth/login/google`
+- `POST /v1/auth/refresh`
+- `POST /v1/auth/logout`
+- `POST /v1/auth/logout-all`
 
 Auth endpoints are documented in Swagger under the **Auth** tag.
 

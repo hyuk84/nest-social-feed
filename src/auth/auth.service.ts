@@ -16,19 +16,14 @@ import { UserStats } from '@/users/entities/user-stats.entity';
 import { Account } from '@/auth/entities/account.entity';
 import { AuthSession } from '@/auth/entities/auth-session.entity';
 
-import { EmailSignupDto } from '@/auth/dto/email-signup.dto';
-import { EmailLoginDto } from '@/auth/dto/email-login.dto';
-import { GoogleLoginDto } from '@/auth/dto/google-login.dto';
-import { RefreshTokenDto } from '@/auth/dto/refresh-token.dto';
-import { AuthResponse } from '@/auth/types/auth-response.type';
+import { EmailLoginDto } from '@/auth/dto/request/email-login.dto';
+import { EmailSignupDto } from '@/auth/dto/request/email-signup.dto';
+import { GoogleLoginDto } from '@/auth/dto/request/google-login.dto';
+import { RefreshTokenDto } from '@/auth/dto/request/refresh-token.dto';
+import type { AuthResponse } from '@/auth/types/auth-response.type';
+import type { SessionMeta } from '@/auth/types/session-meta.type';
 import { AppException } from '@/common/errors/exceptions/app.exception';
 import { AUTH_ERROR_CODES } from '@/common/errors/codes/auth-error.codes';
-
-type SessionMeta = {
-  userAgent?: string;
-  ipAddress?: string;
-  deviceName?: string;
-};
 
 type RefreshTokenPayload = {
   sub: string;

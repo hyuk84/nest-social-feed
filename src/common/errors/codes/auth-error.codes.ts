@@ -21,6 +21,11 @@ export const AUTH_ERROR_CODES = {
     message: 'The account is inactive.',
     status: 401,
   },
+  INVALID_ACCESS_TOKEN: {
+    code: 'AUTH_INVALID_ACCESS_TOKEN',
+    message: 'The access token is missing, invalid, or expired.',
+    status: 401,
+  },
   INVALID_GOOGLE_TOKEN: {
     code: 'AUTH_INVALID_GOOGLE_TOKEN',
     message: 'The Google token is invalid.',
